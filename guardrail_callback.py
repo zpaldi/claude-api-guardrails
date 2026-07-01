@@ -12,6 +12,7 @@ Policy alignment:
 No HuggingFace models, no internet calls during validation.
 spaCy en_core_web_md only (CPU, ~40MB, offline).
 """
+
 import logging
 import os
 import threading
@@ -25,13 +26,13 @@ _log = logging.getLogger("v1-guardrail")
 # Configurable via env: V1_BLOCKED_PII_ENTITIES=EMAIL_ADDRESS,PHONE_NUMBER,...
 _DEFAULT_PII_ENTITIES = [
     "EMAIL_ADDRESS",  # ISO 27001 — personal contact data
-    "PHONE_NUMBER",   # ISO 27001 — personal contact data
-    "PERSON",         # ISO 27001 — individual identifiers
-    "UK_NHS",         # ISO 27001 — sensitive health data
-    "UK_POSTCODE",    # ISO 27001 — location data
-    "CREDIT_CARD",    # PCI DSS / SOC 2 — financial data
-    "IBAN_CODE",      # PCI DSS / SOC 2 — financial data
-    "IP_ADDRESS",     # ISO 27001 — network identifiers
+    "PHONE_NUMBER",  # ISO 27001 — personal contact data
+    "PERSON",  # ISO 27001 — individual identifiers
+    "UK_NHS",  # ISO 27001 — sensitive health data
+    "UK_POSTCODE",  # ISO 27001 — location data
+    "CREDIT_CARD",  # PCI DSS / SOC 2 — financial data
+    "IBAN_CODE",  # PCI DSS / SOC 2 — financial data
+    "IP_ADDRESS",  # ISO 27001 — network identifiers
 ]
 
 BLOCKED_PII_ENTITIES: list[str] = [
