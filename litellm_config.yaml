@@ -1,0 +1,34 @@
+# V1 AI Guardrails — LiteLLM Proxy Config (Phase 1)
+# Auth mode: Anthropic Enterprise OAuth (claude_enterprise)
+# No API key needed — proxy forwards the client's bearer token transparently.
+# Docs: https://docs.litellm.ai/docs/proxy/configs
+
+model_list:
+  # Claude Code sends whatever model name it chooses — catch all and forward.
+  # No api_key set here: LiteLLM uses the incoming Authorization: Bearer <token>
+  # from Claude Code as the upstream credential automatically.
+  - model_name: "claude-*"
+    litellm_params:
+      model: "anthropic/claude-*"
+
+  - model_name: "anthropic/*"
+    litellm_params:
+      model: "anthropic/*"
+
+litellm_settings:
+  # V1 Policy Guardrail — runs before every API call reaches Anthropic
+  # guardrail_callback.py must be on PYTHONPATH (start.sh handles this)
+  callbacks: ["guardrail_callback.v1_guardrail"]
+
+  # Preserve all headers from the client (including Authorization: Bearer)
+  drop_params: false
+
+  # Timeout safety net for validation
+  request_timeout: 30
+
+general_settings:
+  # No master_key for personal local use — this allows the proxy to forward
+  # the incoming bearer token as-is to Anthropic (enterprise OAuth passthrough).
+  # If you later share with teammates, add:
+  #   master_key: "os.environ/LITELLM_MASTER_KEY"
+  pass_through_endpoints: false
