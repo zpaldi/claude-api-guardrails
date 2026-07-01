@@ -20,6 +20,7 @@ else
   echo "✓ .venv already exists"
 fi
 
+# shellcheck source=/dev/null
 source .venv/bin/activate
 
 # --- Python dependencies ---

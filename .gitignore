@@ -2,4 +2,15 @@
 .venv/
 __pycache__/
 *.pyc
+*.pyo
 .guardrails/
+*.log
+*.sqlite
+*.sqlite3
+dist/
+build/
+*.egg-info/
+.eggs/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/

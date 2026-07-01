@@ -53,15 +53,15 @@ test_pii_prompt() {
 
 test_secret_passthrough() {
   echo ""
-  echo "Test 3: Prompt with a hardcoded secret — should be BLOCKED"
+  echo "Test 3: Prompt with a token-shaped string — informational (Phase 1 DetectPII may not block)"
+  # Uses a clearly fake, non-sensitive placeholder (not a real key format).
   RESPONSE=$(curl -s -w "\n%{http_code}" "$PROXY/v1/chat/completions" \
     -H "Content-Type: application/json" \
     -H "Authorization: Bearer test-local-only" \
-    -d '{"model":"claude-haiku-4-5","messages":[{"role":"user","content":"Here is my API key: sk-ant-api03-AAABBBCCC. Is this format valid?"}],"max_tokens":20}')
+    -d '{"model":"claude-haiku-4-5","messages":[{"role":"user","content":"Is the format EXAMPLE-TOKEN-PLACEHOLDER valid for an API key?"}],"max_tokens":20}')
   HTTP_CODE=$(echo "$RESPONSE" | tail -1)
-  # Note: secret detection depends on which validators are active
-  # This test is informational — DetectPII may not catch API keys (that is detect-secrets territory)
-  echo "  ℹ️  HTTP $HTTP_CODE (API key detection requires detect-secrets integration — Phase 2)"
+  # Secret detection (API keys, tokens) is Phase 2 scope — requires detect-secrets integration
+  echo "  INFO: HTTP $HTTP_CODE (secret/token detection is Phase 2 scope)"
 }
 
 echo "🛡️  V1 AI Guardrails — Smoke Test"

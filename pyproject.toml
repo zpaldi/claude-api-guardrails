@@ -1,0 +1,26 @@
+[project]
+name = "claude-api-guardrails"
+version = "0.1.0"
+description = "Local proxy intercepting Claude API calls with enterprise AI policy guardrails"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "S", "B"]
+ignore = [
+    "S101",  # assert statements (fine in tests)
+    "S603",  # subprocess without shell=True is safe
+]
+
+[tool.ruff.lint.per-file-ignores]
+"test_guardrail.sh" = ["S"]
+
+[tool.bandit]
+exclude_dirs = [".venv", "__pycache__"]
+skips = [
+    "B101",  # assert_used — acceptable in tests
+]
