@@ -8,8 +8,10 @@
 
 ## Changes
 
-- 
-- 
+<!--
+- First change
+- Second change
+-->
 
 ## Test plan
 
